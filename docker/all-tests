@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+
+def host_is_up(url)
+  require 'net/http'
+
+  uri = URI(url)
+
+  begin
+    Net::HTTP.start(uri.host, uri.port) do |http|
+      request = Net::HTTP::Get.new(uri)
+      response = http.request(request)
+      if response.code == '200'
+        true
+      else
+        puts "Got status #{response.code} from server. Will retry..."
+        false
+      end
+    end
+  rescue SocketError => e
+    puts "#{url} responded with #{e.inspect}; will retry..."
+    false
+  rescue Errno::ECONNREFUSED => e
+    puts "#{url} responded with #{e.inspect}; will retry..."
+    false
+  end
+end
+
+def wait_for_host(url)
+  puts "Waiting for #{url} to come online..."
+  until host_is_up(url)
+    sleep(1)
+  end
+  puts "Got a 200 OK from #{url}"
+end
+
+ENV['WAIT_FOR_URLS'].split(/ /).each do |url|
+  wait_for_host(url)
+end
+
+Dir.entries('spec')
+  .select { |e| e =~ /.*_spec\.rb$/ }
+  .map { |e| e.sub(/\.rb$/, '') }
+  .each { |e| require_relative("spec/#{e}") }
