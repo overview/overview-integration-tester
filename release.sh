@@ -2,13 +2,13 @@
 
 DIR="$(dirname "$0")"
 
-if (cd "$DIR" && git status --short | grep -E '.'); then
-  echo "You have unsaved changes. Please git commit or reset them and run this again." >&2
-  exit 1
-fi
+#if (cd "$DIR" && git status --short | grep -E '.'); then
+#  echo "You have unsaved changes. Please git commit or reset them and run this again." >&2
+#  exit 1
+#fi
 
-if [ -n "$(echo "$1" | sed -e 's/[0-9]*\.[0-9]*\.[0-9]//')" ]; then
-  echo "Usage: $0 VERSION, where VERSION is like `1.0.0`" >&2
+if [ -n "$(echo "v$1" | sed -e 's/v[0-9]*\.[0-9]*\.[0-9]//')" ]; then
+  echo "Usage: $0 VERSION, where VERSION is like '1.0.0'" >&2
   exit 1
 fi
 
@@ -47,7 +47,7 @@ echo "$PATCH_VERSION" > "$DIR"/VERSION
 (cd "$DIR" \
   && echo "$PATCH_VERSION" > VERSION \
   && sed -ie \
-    "s/^OVERVIEW_INTEGRATION_TESTER_VERSION=.*/OVERVIEW_INTEGRATION_TESTER_VERSION=$PATCH_VERSION" \
+    "s/^OVERVIEW_INTEGRATION_TESTER_VERSION=.*/OVERVIEW_INTEGRATION_TESTER_VERSION=$PATCH_VERSION/" \
     skeleton/config \
   && git add VERSION skeleton/config \
   && git commit -m "v$PATCH_VERSION" \
