@@ -30,7 +30,8 @@ OLD_MINOR_VERSION_INT=$(echo $OLD_PATCH_VERSION | cut -d. -f2)
 OLD_PATCH_VERSION_INT=$(echo $OLD_PATCH_VERSION | cut -d. -f3)
 if [ $MAJOR_VERSION_INT -lt $OLD_MAJOR_VERSION_INT ]; then version_too_small; fi
 if [ $MAJOR_VERSION_INT -eq $OLD_MAJOR_VERSION_INT ] && [ $MINOR_VERSION_INT -lt $OLD_MINOR_VERSION_INT ]; then version_too_small; fi
-if [ $MAJOR_VERSION_INT -eq $OLD_MAJOR_VERSION_INT ] && [ $MINOR_VERSION_INT -eq $OLD_MINOR_VERSION_INT ] && [ $PATCH_VERSION_INT -le $OLD_PATCH_VERSION_INT ]; then version_too_small; fi
+# Let user re-release the current version, in case something went wrong last release
+if [ $MAJOR_VERSION_INT -eq $OLD_MAJOR_VERSION_INT ] && [ $MINOR_VERSION_INT -eq $OLD_MINOR_VERSION_INT ] && [ $PATCH_VERSION_INT -lt $OLD_PATCH_VERSION_INT ]; then version_too_small; fi
 
 docker build \
   --pull \
