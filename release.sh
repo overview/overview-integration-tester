@@ -46,9 +46,10 @@ docker push overview/overview-integration-tester:$MAJOR_VERSION
 echo "$PATCH_VERSION" > "$DIR"/VERSION
 (cd "$DIR" \
   && echo "$PATCH_VERSION" > VERSION \
-  && sed -ie \
+  && sed -i -e \
     "s/^OVERVIEW_INTEGRATION_TESTER_VERSION=.*/OVERVIEW_INTEGRATION_TESTER_VERSION=$PATCH_VERSION/" \
     skeleton/config \
   && git add VERSION skeleton/config \
   && git commit -m "v$PATCH_VERSION" \
+  && git tag "v$PATCH_VERSION" \
   && git push origin "v$PATCH_VERSION")
