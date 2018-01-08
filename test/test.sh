@@ -6,4 +6,4 @@ rm -rf "$DIR"/framework
 cp -av "$DIR"/../skeleton "$DIR"/framework
 cp -av "$DIR"/files-atop-framework/* "$DIR"/framework/
 sed -ie 's/^WAIT_FOR_URLS=.*/WAIT_FOR_URLS="http:\/\/overview-web"/' "$DIR"/framework/config
-"$DIR"/framework/run
+"$DIR"/framework/run-in-docker-compose

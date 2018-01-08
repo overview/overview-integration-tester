@@ -7,7 +7,7 @@
 # default project to be destroyed frequently.
 DOCKER_COMPOSE_PROJECT_NAME=overviewintegrationtester
 
-# project name when _not_ using docker-compose. overview-integration-tests
+# project name when _not_ using docker-compose. overview-integration-tester
 # will not destroy this; they will use it when calling `run` and
 # `run-browser`.
 #
