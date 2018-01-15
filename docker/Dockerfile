@@ -3,7 +3,7 @@
 # [adam, later 2017-11-24] alpine:edge has Chromium 61. That's not enough:
 # Chromium 61 headless doesn't let us test `window.alert()`.
 #
-# Switch to alpine when it has chromium 62. Debian makes the build
+# Switch to alpine when it has chromium 63. Debian (Chrome 63) makes the build
 # super-slow.
 FROM debian:stretch
 
@@ -23,7 +23,7 @@ RUN set -x \
         zlib1g-dev \
         tigervnc-standalone-server \
       && gem install bundler \
-      && (cd /tmp && curl "http://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip" -o chromedriver_linux64.zip && unzip chromedriver_linux64.zip && rm -f chromedriver_linux64.zip && mv chromedriver /usr/bin/)
+      && (cd /tmp && curl "http://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" -o chromedriver_linux64.zip && unzip chromedriver_linux64.zip && rm -f chromedriver_linux64.zip && mv chromedriver /usr/bin/)
 
 # Expose remote debugging port. Browse to http://docker-container-ip:9222
 # to see what's going on inside Chromium.
