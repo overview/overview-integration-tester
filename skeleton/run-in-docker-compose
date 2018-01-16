@@ -28,7 +28,7 @@ docker_compose build --pull
 docker_compose up -d overview-database
 docker_compose run overview-db-evolution-applier # upon exit, DB is up-to-date
 
-find "$DIR"/reports -name '*.xml' -exec rm {} \;
+find "$DIR"/reports -name '*.xml' -exec rm -f {} \;
 
 # integration-test will end, and one of three things will have happened:
 #
