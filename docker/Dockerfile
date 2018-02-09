@@ -22,6 +22,7 @@ RUN set -x \
         unzip \
         zlib1g-dev \
         tigervnc-standalone-server \
+        xvfb \
       && gem install bundler \
       && (cd /tmp && curl "http://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" -o chromedriver_linux64.zip && unzip chromedriver_linux64.zip && rm -f chromedriver_linux64.zip && mv chromedriver /usr/bin/)
 
