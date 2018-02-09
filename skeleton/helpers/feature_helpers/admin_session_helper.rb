@@ -3,7 +3,7 @@ module FeatureHelpers
     # Capybara session in charge of creating and deleting users.
     def admin_session
       # Singleton admin session: open once, used for all tests
-      @admin_session ||= begin
+      @@admin_session ||= begin
         s = Capybara::Session.new(Capybara.default_driver)
 
         s.extend SessionHelpers::WaitHelper # used by log_in_as
