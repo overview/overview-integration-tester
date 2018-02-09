@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'minitest/ci'
+require 'minitest/reporters'
 require 'minitest/spec'
 require 'capybara'
 require 'selenium-webdriver'
@@ -12,7 +12,10 @@ WAIT_FAST = 1 # 1s: how long to wait for JavaScript to execute
 WAIT_LOAD = 10 # 10s: how long to wait for a page to load
 WAIT_SLOW = 70 # 60s: how long to wait for Overview to complete an import job
 
-Minitest::Ci.report_dir = '/app/reports'
+Minitest::Reporters.use! [
+  Minitest::Reporters::SpecReporter.new,
+  Minitest::Reporters::JUnitReporter.new('/app/reports')
+]
 
 def chrome_args
   # Dynamic: each time we call this, create a new user-data-dir

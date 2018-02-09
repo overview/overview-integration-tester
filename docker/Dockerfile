@@ -16,6 +16,7 @@ RUN set -x \
         ca-certificates \
         chromium \
         curl \
+        libffi-dev \
         libgconf2.0 \
         ruby \
         ruby-dev \
