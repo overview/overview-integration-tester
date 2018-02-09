@@ -67,7 +67,7 @@ module SessionHelpers
       assert_selector('li.view span.title', text: options[:name], wait: WAIT_FAST)
       # And wait for it to begin loading. Without specific plugin knowledge, we
       # can't tell when it _ends_ loading.
-      assert_selector('iframe#view-app-iframe', wait: WAIT_FAST)
+      assert_selector("iframe#view-app-iframe[src^=\"#{options[:url]}\"]", wait: WAIT_FAST)
     end
 
     def delete_current_view
@@ -80,6 +80,12 @@ module SessionHelpers
       end
       # Wait for the view to disappear
       assert_selector('ul.view-tabs>li.view', count: n_views_before - 1, wait: WAIT_LOAD)
+    end
+
+    def open_document_in_list_with_name(name)
+      waiting_for_css_transitions_on_selector('#document-current') do
+        find('#document-list h3', text: name, wait: WAIT_LOAD).click # wait for doclist to load
+      end
     end
   end
 end
