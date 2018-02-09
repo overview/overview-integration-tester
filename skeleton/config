@@ -28,7 +28,7 @@ OVERVIEW_INTEGRATION_TESTER_VERSION=1.0.5
 # Do not use `latest`. Overview changes in ways that might break your tests.
 # (For instance, a button might be renamed.) You should frequently update your
 # tests to the latest version of Overview.
-OVERVIEW_VERSION=85859f2ced4fd877cb5a5faa5fc3def64988d350
+OVERVIEW_VERSION=b7653f60b6fdcbf45237110a6d18748a11d4e05e
 
 # Stall `run` and `run-in-docker-compose` on startup until these URLs are
 # available.
