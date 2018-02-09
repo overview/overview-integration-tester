@@ -30,6 +30,6 @@ exec docker run --rm -it \
   -v "$ABSDIR"/helpers:/app/helpers \
   -v "$ABSDIR"/reports:/app/reports \
   -v "$ABSDIR"/spec:/app/spec \
-  --shmem
+  --shm-size=2g \
   "$IMAGE_NAME" \
   "$@"

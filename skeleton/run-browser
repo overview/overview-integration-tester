@@ -20,7 +20,7 @@ COMMANDS="$(cat <<-EOT
 export DISPLAY=:1
 
 Xvnc \
-  -Log='*:stderr:10' \
+  -Log='*:stderr:0' \
   -geometry 1200x900 \
   -SecurityTypes None \
   \$DISPLAY \
@@ -34,13 +34,14 @@ wait
 EOT
 )"
 
-echo "$COMMANDS" | exec docker run \
+echo "$COMMANDS" | docker run \
   -i \
   --rm \
   --privileged \
   --env-file "$DIR"/config \
   --publish-all \
   --network ${DEVELOPMENT_PROJECT_NAME}_default \
+  --shm-size=2g \
   --name overview-integration-tester-chromium \
   -v "$ABSDIR"/files:/app/files \
   -v "$ABSDIR"/helpers:/app/helpers \
@@ -55,7 +56,7 @@ sleep 2
 
 IP_AND_PORT="$(docker port overview-integration-tester-chromium 5901/tcp)"
 
-vncviewer $IP_AND_PORT RemoteResize=0
+vncviewer '-Log=*:stderr:0' $IP_AND_PORT RemoteResize=0
 # vncviewer will die when container dies.
 
 # If we get here, then either:
