@@ -198,3 +198,35 @@ always be both; don't let Capybara's confusing design confuse you.
 http://www.rubydoc.info/github/jnicklas/capybara/Capybara/Session
 and other spots online. One detail sets us apart: we do _not_ use
 `Capybara.default_max_wait_time` because it is terrible.
+
+Changelog and Update Instructions
+=================================
+
+**2.0.0**, released 2018-04-10
+
+Changes:
+
+* Upgraded to Chromedriver 2.37 and Chromium 64
+* Switched to debian-slim for faster pull
+* Upgraded Overview
+
+To upgrade:
+
+* Change `OVERVIEW_INTEGRATION_TESTER_VERSION` to `2.0.0` and update
+  `OVERVIEW_VERSION` to at least `ba89c4502319969f3bd9248150e8608c085d7c7e`
+* Add `OV_APPLICATION_SECRET` environment variable to `overview-web` with
+  any String value
+* Add `overview-convert-pdf` instance, if your tests use any PDF imports
+* Overwrite `helpers/session_helpers/document_set_helper.rb`. (It now disables
+  OCR when uploading PDFs: that lets you omit `overview-convert-pdfocr` from
+  `docker-compose.yml` and speed up tests.)
+
+Releasing This Framework
+========================
+
+1. Fix a bug or add a feature, presumably by writing tests in `test/` and/or
+   editing code in `skeleton/`.
+2. Pick a new version number, `X.Y.Z` (consulting `VERSION` and semver).
+3. `docker build docker -t overview/overview-integration-tester:X.Y.Z`
+4. `./test/test.sh`
+5. `./release X.Y.Z`

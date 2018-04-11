@@ -6,6 +6,8 @@ services:
     image: overview/overview-web:${OVERVIEW_VERSION}
     networks: [ 'default', 'database', 'redis', 'worker' ]
     depends_on: [ 'overview-database', 'overview-redis', 'overview-worker' ]
+    environment:
+      OV_APPLICATION_SECRET: 'this-is-a-secret-you-must-set-in-production'
     volumes:
       - blob-storage:/var/lib/overview/blob-storage
 
@@ -29,10 +31,20 @@ services:
     networks: [ 'database' ]
     depends_on: [ 'overview-database' ]
 
+  # This integration-test environment only supports PDFs without OCR. To support
+  # more input formats, add more converters to docker-compose. (See
+  # overview-server/docker-compose.yml and overview-server/.env for a full list
+  # of converters.)
+  overview-convert-pdf:
+    image: overview/overview-convert-pdf:0.0.3
+    networks: [ 'worker' ]
+    environment:
+      POLL_URL: 'http://overview-worker:9032/Pdf'
+
   # === The integration-test runner ===
   integration-test:
     image: overview/overview-integration-tester:${OVERVIEW_INTEGRATION_TESTER_VERSION}
-    depends_on: [ 'overview-web' ]
+    depends_on: [ 'overview-web', 'overview-convert-pdf' ]
     environment:
       OVERVIEW_URL: http://overview-web
       WAIT_FOR_URLS: ${WAIT_FOR_URLS}
