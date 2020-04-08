@@ -127,7 +127,7 @@ Run `integration-test/run-browser` to open a browser.
 If you want to upload files in this environment, upload them from
 `/app/files`. Those are the files the integration tests access.
 
-You can _watch_ a test: `integration-test/run-browser my_feature_spec`
+You can _watch_ a test: `integration-test/run-browser spec/my_feature_spec.rb`
 
 If your test is failing and Chromium is exiting too quickly for you to debug,
 add `sleep` in your test code and re-run
@@ -201,6 +201,25 @@ and other spots online. One detail sets us apart: we do _not_ use
 
 Changelog and Update Instructions
 =================================
+
+**3.0.0**, released 2020-04-08
+
+Changes:
+
+* Upgraded to Chromium 79
+* Switched to alpine for even-faster pull
+* Upgarded Overview
+
+To upgrade:
+
+* Change `OVERVIEW_INTEGRATION_TESTER_VERSION` to `3.0.0` and update
+  `OVERVIEW_VERSION` to at least `a19aeed0cfcc2417a1ddc135f424ecf76748285b`
+* (To follow changes in `overview-server` project): set
+  `DEVELOPMENT_PROJECT_NAME=overview-server`
+* Overwrite your `run-browser` by downloading
+  [run-browser @ v3.0.0](https://raw.githubusercontent.com/overview/overview-integration-tester/v3.0.0/skeleton/run-browser)
+* Overwrite your `spec/spec_helper.rb` with
+  [spec/spec_helper.rb @ v3.0.0](https://raw.githubusercontent.com/overview/overview-integration-tester/v3.0.0/skeleton/spec/spec_helper.rb)
 
 **2.0.0**, released 2018-04-10
 
