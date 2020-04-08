@@ -16,7 +16,7 @@ DOCKER_COMPOSE_PROJECT_NAME=overviewintegrationtester
 #
 # Another sensible name here would be "overviewlocal". Decide your project's
 # development process early: it's a pain for every developer when you change.
-DEVELOPMENT_PROJECT_NAME=overviewserver
+DEVELOPMENT_PROJECT_NAME=overview-server
 
 # Docker container version. We use semantic versioning; only the major version
 # matters, but you can be paranoid and add minor and patch versions, too.
@@ -28,7 +28,7 @@ OVERVIEW_INTEGRATION_TESTER_VERSION=2.0.0
 # Do not use `latest`. Overview changes in ways that might break your tests.
 # (For instance, a button might be renamed.) You should frequently update your
 # tests to the latest version of Overview.
-OVERVIEW_VERSION=ba89c4502319969f3bd9248150e8608c085d7c7e
+OVERVIEW_VERSION=a19aeed0cfcc2417a1ddc135f424ecf76748285b
 
 # Stall `run` and `run-in-docker-compose` on startup until these URLs are
 # available.

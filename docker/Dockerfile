@@ -1,32 +1,33 @@
-# alpine:3.6 doesn't have new-enough Chromium+Node.
-# [adam, 2017-11-24] alpine:3.7 should be out any day now!
-# [adam, later 2017-11-24] alpine:edge has Chromium 61. That's not enough:
-# Chromium 61 headless doesn't let us test `window.alert()`.
-#
-# Switch to alpine when it has chromium 63. Debian (Chrome 63) makes the build
-# super-slow.
-FROM debian:stretch-slim
+FROM alpine:3.11.5
 
-RUN set -x \
-      && echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/force-unsafe-io \
-      && echo "Acquire::http {No-Cache=True;};" > /etc/apt/apt.conf.d/no-cache \
-      && apt-get update \
-      && apt-get install -y --no-install-recommends \
-        build-essential \
-        ca-certificates \
-        chromium \
-        curl \
-        libffi-dev \
-        libgconf2.0 \
-        ruby \
-        ruby-dev \
-        unzip \
-        zlib1g-dev \
-        tigervnc-standalone-server \
-        xvfb \
-      && apt-get clean -y && rm -rf /var/cache/debconf/* /var/lib/apt/lists/* /var/log/* /tmp/* /var/tmp/* \
-      && gem install bundler \
-      && (cd /tmp && curl "http://chromedriver.storage.googleapis.com/2.37/chromedriver_linux64.zip" -o chromedriver_linux64.zip && unzip chromedriver_linux64.zip && rm -f chromedriver_linux64.zip && mv chromedriver /usr/bin/)
+RUN apk add --no-cache \
+      ca-certificates \
+      chromium \
+      chromium-chromedriver \
+      curl \
+      ruby \
+      ruby-json \
+      ttf-freefont \
+      unzip \
+      x11vnc \
+      xvfb \
+    && gem install bundler
+
+WORKDIR /app
+
+COPY Gemfile Gemfile.lock all-tests /app/
+
+RUN apk add --no-cache --virtual build-deps \
+      build-base \
+      ca-certificates \
+      curl \
+      libxml2-dev \
+      libxslt-dev \
+      ruby-dev \
+      zlib-dev \
+    && BUNDLE_SILENCE_ROOT_WARNING=1 bundle config build.nokogiri --use-system-libraries \
+    && BUNDLE_SILENCE_ROOT_WARNING=1 bundle install \
+    && apk del build-deps
 
 # Expose remote debugging port. Browse to http://docker-container-ip:9222
 # to see what's going on inside Chromium.
@@ -36,12 +37,8 @@ EXPOSE 9222
 # tests.
 EXPOSE 5901
 
-RUN useradd -ms /bin/bash chromium
-
-WORKDIR /app
-
-COPY Gemfile Gemfile.lock all-tests /app/
-RUN bundle install
+RUN adduser --disabled-password --shell /bin/sh chromium
+USER chromium
 
 VOLUME /app/files
 VOLUME /app/spec
