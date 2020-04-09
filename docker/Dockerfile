@@ -7,6 +7,7 @@ RUN apk add --no-cache \
       curl \
       ruby \
       ruby-json \
+      ruby-webrick \
       ttf-freefont \
       unzip \
       x11vnc \
