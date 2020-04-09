@@ -5,6 +5,7 @@ ABSDIR="$(realpath "$DIR")"
 
 set -e
 
+# shellcheck source=config
 . "$DIR"/config
 
 IMAGE_NAME=overview/overview-integration-tester:$OVERVIEW_INTEGRATION_TESTER_VERSION

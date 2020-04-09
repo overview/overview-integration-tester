@@ -1,17 +1,23 @@
 FROM alpine:3.11.5
 
+# ruby-json: generally useful
+# ruby-webrick: useful for tests to create plugin web servers
+# ruby-etc: required (but not depended on) by ruby-webrick
+# xvfb-run: used by ./run
+# x11vnc: used by ./run-browser
 RUN apk add --no-cache \
       ca-certificates \
       chromium \
       chromium-chromedriver \
-      curl \
       ruby \
+      ruby-etc \
       ruby-json \
       ruby-webrick \
       ttf-freefont \
       unzip \
       x11vnc \
       xvfb \
+      xvfb-run \
     && gem install bundler
 
 WORKDIR /app
@@ -20,8 +26,6 @@ COPY Gemfile Gemfile.lock all-tests /app/
 
 RUN apk add --no-cache --virtual build-deps \
       build-base \
-      ca-certificates \
-      curl \
       libxml2-dev \
       libxslt-dev \
       ruby-dev \

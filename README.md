@@ -202,6 +202,18 @@ and other spots online. One detail sets us apart: we do _not_ use
 Changelog and Update Instructions
 =================================
 
+**3.0.1**, released 2020-04-09
+
+Changes:
+
+* Re-included "webrick", so specs can require it.
+* Re-included "xvfb-run", to fix ./run.
+* Nix "curl", which is unused.
+
+To upgrade:
+
+* Change `OVERVIEW_INTEGRATION_TESTER_VERSION` to `3.0.1`
+
 **3.0.0**, released 2020-04-08
 
 Changes:
@@ -216,6 +228,11 @@ To upgrade:
   `OVERVIEW_VERSION` to at least `a19aeed0cfcc2417a1ddc135f424ecf76748285b`
 * (To follow changes in `overview-server` project): set
   `DEVELOPMENT_PROJECT_NAME=overview-server`
+* Nix the `--shm-size` Docker flag from your `./run`.
+* If you modified your `run` script to invoke `xvfb-run`, remove the
+  `--init` Docker flag.
+* Overwrite your `run` by downloading
+  [run-browser @ v3.0.0](https://raw.githubusercontent.com/overview/overview-integration-tester/v3.0.0/skeleton/run-browser)
 * Overwrite your `run-browser` by downloading
   [run-browser @ v3.0.0](https://raw.githubusercontent.com/overview/overview-integration-tester/v3.0.0/skeleton/run-browser)
 * Overwrite your `spec/spec_helper.rb` with
