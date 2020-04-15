@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.7'
 
 services:
   # === Overview: you probably don't want to edit this ===
@@ -48,6 +48,7 @@ services:
   # === The integration-test runner ===
   integration-test:
     image: overview/overview-integration-tester:${OVERVIEW_INTEGRATION_TESTER_VERSION}
+    init: true
     depends_on: [ 'overview-web', 'overview-convert-pdf', 'my-project' ]
     environment:
       OVERVIEW_URL: http://overview-web
